@@ -18,8 +18,6 @@ namespace Views
                 Detalhamento
             );
 
-            Console.WriteLine("\n Especialidade cadastrada com sucesso!");
-
         }
 
         public static void AlterarEspecialidade()
@@ -34,7 +32,7 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-            Console.WriteLine("Informe a descrição da Especialidade: ");
+           Console.WriteLine("Informe a descrição da Especialidade: ");
             string Descricao = Console.ReadLine();
             Console.WriteLine("Informe o detalhamento da Especialidade: ");
             string Detalhamento = Console.ReadLine();
@@ -44,7 +42,6 @@ namespace Views
                 Descricao,
                 Detalhamento
             );
-            Console.WriteLine("\n Especialidade alterada com sucesso!");
         }
 
         public static void ExcluirEspecialidade()
@@ -59,12 +56,10 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-
+            
             EspecialidadeController.ExcluirEspecialidade(
                 Id
             );
-
-            Console.WriteLine("\n Especialidade excluída com sucesso!");
 
         }
 

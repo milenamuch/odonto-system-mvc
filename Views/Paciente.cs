@@ -38,7 +38,6 @@ namespace Views
                 DataNascimento
             );
 
-            Console.WriteLine("\n Paciente cadastrado com sucesso!");
         }
 
         public static void AlterarPaciente()
@@ -84,7 +83,6 @@ namespace Views
                 DataNascimento
             );
 
-            Console.WriteLine("\n Paciente alterado com sucesso!");
         }
 
         public static void ExcluirPaciente()
@@ -99,12 +97,10 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-
+            
             PacienteController.ExcluirPaciente(
                 Id
             );
-
-            Console.WriteLine("\n Paciente excluído com sucesso!");
 
         }
 

@@ -11,29 +11,29 @@ namespace Views
         // ---------- INSERIR AGENDAMENTO ----------
         public static void InserirAgendamento()
         {
-            int IdPaciente;
-            int IdDentista;
+            int PacienteId;
+            int DentistaId;
             int IdSala;
             DateTime Data = DateTime.Now;
-            int opt = 0;
-            List<int> IdProcedimentos = new List<int>();
+            int optProcedimento = 0;
+            List<int> ProcedimentosId = new List<int>();
             Console.WriteLine("Digite o ID do Paciente do Agendamento: ");
             try
             {
-                IdPaciente = Convert.ToInt32(Console.ReadLine());
+                PacienteId = Convert.ToInt32(Console.ReadLine());
             }
             catch
             {
-                throw new Exception("ID de paciente inválido.");
+                throw new Exception("ID inválido.");
             }
             Console.WriteLine("Digite o Id do Dentista do Agendamento: ");
             try
             {
-                IdDentista = Convert.ToInt32(Console.ReadLine());
+                DentistaId = Convert.ToInt32(Console.ReadLine());
             }
             catch
             {
-                throw new Exception("ID de dentista inválido.");
+                throw new Exception("ID inválido.");
             }
             Console.WriteLine("Digite o Id da Sala do Agendamento: ");
             try
@@ -42,7 +42,7 @@ namespace Views
             }
             catch
             {
-                throw new Exception("ID de sala inválido.");
+                throw new Exception("ID inválido.");
             }
             Console.WriteLine("Digite o Data do Agendamento: ");
             try
@@ -54,60 +54,34 @@ namespace Views
                 throw new Exception("Data inválida.");
             }
 
-
-            Console.WriteLine("Digite o Id do Procedimento que será executado: ");
-            try
-            {
-                IdProcedimentos.Add(Convert.ToInt32(Console.ReadLine()));
-            }
-            catch
-            {
-                throw new Exception("Procedimento inválido.");
-            }
-
-            do
-            {
-
-                Console.WriteLine("Deseja informar outro procedimento? [1-Sim] [2- Não]");
-
-                opt = Convert.ToInt32(Console.ReadLine());
-
-
-                switch (opt)
+            do {
+                Console.WriteLine("Digite o Id do Procedimento que será executado: ");
+                try
                 {
-                    case 1:
-                        Console.WriteLine("Digite o Id do procedimento que será adicionado: ");
-                        try
-                        {
-                            IdProcedimentos.Add(Convert.ToInt32(Console.ReadLine()));
-                        }
-                        catch
-                        {
-                            throw new Exception("Procedimento inválido.");
-                        }
-                        break;
-
-                    case 2:
-                        Console.WriteLine("Você saiu");
-                        break;
-
-                    default:
-                        Console.WriteLine("Operação inválida");
-                        break;
+                    ProcedimentosId.Add(Convert.ToInt32(Console.ReadLine()));
                 }
-            } while (opt == 1);
-
-
-            Console.WriteLine("\nAgendamento cadastrado com sucesso!");
+                catch
+                {
+                    throw new Exception("Procedimento inválido.");
+                }
+                Console.WriteLine("Deseja informar outro procedimento? [1-Sim] [2- Não]");
+                try
+                {
+                    optProcedimento = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    optProcedimento = 99;
+                }
+            } while (optProcedimento != 1 );
 
             AgendamentoController.InserirAgendamento(
-                IdPaciente,
-                IdDentista,
+                PacienteId,
+                DentistaId,
                 IdSala,
                 Data,
-                IdProcedimentos
+                ProcedimentosId
             );
-
         }
 
         // ---------- ALTERAR AGENDAMENTO ----------
@@ -116,8 +90,8 @@ namespace Views
             int Id = 0;
             int IdSala;
             DateTime Data = DateTime.Now;
-            int opt = 0;
-            List<int> IdProcedimentos = new List<int>();
+            int optProcedimento = 0;
+            List<int> ProcedimentosId = new List<int>();
             Console.WriteLine("Digite o ID do Agendamento: ");
             try
             {
@@ -126,7 +100,7 @@ namespace Views
             catch
             {
                 throw new Exception("ID inválido.");
-            }
+            }            
             Console.WriteLine("Digite o Id da Sala do Agendamento: ");
             try
             {
@@ -146,52 +120,57 @@ namespace Views
                 throw new Exception("Data inválida.");
             }
 
-            do
-            {
-                Console.WriteLine(">> Alterar agendamento <<");
-                Console.WriteLine("Alterar Procedimento [1] ");
-                Console.WriteLine("Excluir Procedimento [2] ");
-                Console.WriteLine("Digite a opção escolhida: ");
+            do {
+                Console.WriteLine("Digite o Id do procedimento que será adicionado: ");
                 try
                 {
-                    opt = Convert.ToInt32(Console.ReadLine());
+                    ProcedimentosId.Add(Convert.ToInt32(Console.ReadLine()));
                 }
                 catch
                 {
-                    opt = 99;
+                    throw new Exception("Procedimento inválido.");
                 }
-
-                switch (opt)
+                Console.WriteLine("Deseja adicionar outro procedimento? [1-Sim]");
+                try
                 {
-                    case 1:
-                        Console.WriteLine("Digite o Id do procedimento que será adicionado: ");
-                        try
-                        {
-                            IdProcedimentos.Add(Convert.ToInt32(Console.ReadLine()));
-                        }
-                        catch
-                        {
-                            throw new Exception("Procedimento inválido.");
-                        }
-                        break;
-                    case 2:
-                        Console.WriteLine("Digite o Id do procedimento que será removido: ");
-                        try
-                        {
-                            IdProcedimentos.Remove(Convert.ToInt32(Console.ReadLine()));
-                        }
-                        catch
-                        {
-                            throw new Exception("Procedimento inválido.");
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("Operação inválida");
-                        break;
+                    optProcedimento = Convert.ToInt32(Console.ReadLine());
                 }
+                catch
+                {
+                    optProcedimento = 99;
+                }
+            } while (optProcedimento != 1);
 
-            } while (opt != 0);
+            do {
+                Console.WriteLine("Digite o Id do procedimento que será removido: ");
+                try
+                {
+                    ProcedimentosId.Remove(Convert.ToInt32(Console.ReadLine()));
+                }
+                catch
+                {
+                    throw new Exception("Procedimento inválido.");
+                }
+                Console.WriteLine("Deseja remover outro procedimento? [1-Sim]");
+                try
+                {
+                    optProcedimento = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    optProcedimento = 99;
+                }
+            } while (optProcedimento != 1);
+
+
+            AgendamentoController.AlterarAgendamento(
+                Id,
+                IdSala,
+                Data,
+                ProcedimentosId
+            );
         }
+
         // ---------- EXCLUIR AGENDAMENTO ----------
         public static void ExcluirAgendamento()
         {
@@ -205,13 +184,10 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-
+            
             AgendamentoController.ExcluirAgendamento(
                 Id
             );
-
-
-            Console.WriteLine("\nAgendamento excluído com sucesso!");
 
         }
 
@@ -225,10 +201,9 @@ namespace Views
         }
 
         // ---------- MOSTRAR AGENDAMENTO POR PACIENTE ----------
-        public static void GetAgendamentosPorPaciente(int IdPaciente)
+        public static void GetAgendamentosPorPaciente(int PacienteId)
         {
-
-            foreach (Agendamento item in AgendamentoController.GetAgendamentosPorPaciente(IdPaciente))
+            foreach (Agendamento item in AgendamentoController.GetAgendamentosPorPaciente(PacienteId))
             {
                 Console.WriteLine(item);
             }
@@ -249,7 +224,7 @@ namespace Views
             }
             Agendamento agendamento = AgendamentoController.ConfirmarAgendamento(Id);
 
-            Console.WriteLine("Agendamento Confirmado ");
+            Console.WriteLine("Agendamento Confirmado: ");
             Console.WriteLine(agendamento);
         }
     }

@@ -9,7 +9,7 @@ namespace Views
         public static void InserirDentista()
         {
 
-            int IdEspecialidade;
+            int EspecialidadeId;
 
             double Salario = 0;
             Console.WriteLine("Digite o Nome do Dentista: ");
@@ -37,14 +37,13 @@ namespace Views
 
             try
             {
-                IdEspecialidade = Convert.ToInt32(Console.ReadLine());
+                EspecialidadeId = Convert.ToInt32(Console.ReadLine());
             }
             catch
             {
                 throw new Exception("ID inválido.");
             }
-
-            Console.WriteLine("\n Dentista cadastrado com sucesso!");
+       
             DentistaController.InserirDentista(
                 Nome,
                 Cpf,
@@ -53,7 +52,7 @@ namespace Views
                 Senha,
                 Registro,
                 Salario,
-                IdEspecialidade
+                EspecialidadeId
             );
         }
 
@@ -102,7 +101,7 @@ namespace Views
                 Registro,
                 Salario
             );
-            Console.WriteLine("\n Dentista alterado com sucesso!");
+
         }
 
         public static void ExcluirDentista()
@@ -117,12 +116,10 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-
+            
             DentistaController.ExcluirDentista(
                 Id
             );
-
-            Console.WriteLine("\n Dentista excluído com sucesso!");
         }
         public static void ListarDentistas()
         {

@@ -8,7 +8,7 @@ namespace Views
     {
         public static void InserirSala()
         {
-
+            
             Console.WriteLine("Digite o Número da Sala: ");
             string Numero = Console.ReadLine();
             Console.WriteLine("Digite os Equipamentos da Sala: ");
@@ -19,7 +19,7 @@ namespace Views
                 Equipamentos
             );
 
-            Console.WriteLine("\n A sala foi cadastrada com sucesso!");
+             Console.WriteLine("\nA sala foi cadastrada com sucesso!");
         }
 
         public static void AlterarSala()
@@ -45,7 +45,7 @@ namespace Views
                 Equipamentos
             );
 
-            Console.WriteLine("\n A sala foi alterada com sucesso!");
+            Console.WriteLine("\nA sala foi alterada com sucesso!");
 
         }
 
@@ -61,12 +61,11 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-
-            Console.WriteLine("\n Sala excluída com sucesso!");
-
+            
             SalaController.ExcluirSala(
                 Id
             );
+
         }
 
         public static void ListarSalas()

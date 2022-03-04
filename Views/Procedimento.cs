@@ -18,8 +18,6 @@ namespace Views
                 Preco
             );
 
-            Console.WriteLine("\n Procedimento cadastrado com sucesso!");
-
         }
 
         public static void AlterarProcedimento()
@@ -44,9 +42,6 @@ namespace Views
                 Descricao,
                 Preco
             );
-
-            Console.WriteLine("\n Procedimento alterado com sucesso!");
-
         }
 
         public static void ExcluirProcedimento()
@@ -61,13 +56,10 @@ namespace Views
             {
                 throw new Exception("ID inválido.");
             }
-
+            
             ProcedimentoController.ExcluirProcedimento(
                 Id
             );
-
-            Console.WriteLine("\n Procedimento excluído com sucesso!");
-
 
         }
 
