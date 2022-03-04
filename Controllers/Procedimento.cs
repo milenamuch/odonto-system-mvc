@@ -2,6 +2,7 @@ using Models;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Repository;
 
 namespace Controllers
 {
@@ -23,7 +24,6 @@ namespace Controllers
             }
 
             return new Procedimento(Descricao, Preco);
-
         }
 
         public static Procedimento AlterarProcedimento(

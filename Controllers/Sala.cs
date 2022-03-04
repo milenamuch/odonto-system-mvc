@@ -12,8 +12,7 @@ namespace Controllers
             string Equipamentos
         )
         {
-            if (String.IsNullOrEmpty(Numero))
-            {
+            if (String.IsNullOrEmpty(Numero)) {
                 throw new Exception("Número é obrigatório");
             }
 
@@ -28,8 +27,7 @@ namespace Controllers
         {
             Sala sala = GetSala(Id);
 
-            if (!String.IsNullOrEmpty(Numero))
-            {
+            if (!String.IsNullOrEmpty(Numero)) {
                 sala.Numero = Numero;
             }
             sala.Equipamentos = Equipamentos;
@@ -48,7 +46,7 @@ namespace Controllers
 
         public static List<Sala> VisualizarSalas()
         {
-            return Models.Sala.GetSalas();
+            return Models.Sala.GetSalas();  
         }
 
         public static Sala GetSala(
@@ -57,10 +55,10 @@ namespace Controllers
         {
             List<Sala> salasModels = Models.Sala.GetSalas();
             IEnumerable<Sala> salas = from Sala in salasModels
-                                      where Sala.Id == Id
-                                      select Sala;
+                            where Sala.Id == Id
+                            select Sala;
             Sala sala = salas.First();
-
+            
             if (sala == null)
             {
                 throw new Exception("Sala não encontrada");

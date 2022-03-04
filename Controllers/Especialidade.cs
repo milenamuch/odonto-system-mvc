@@ -12,8 +12,7 @@ namespace Controllers
             string Detalhamento
         )
         {
-            if (String.IsNullOrEmpty(Descricao))
-            {
+            if (String.IsNullOrEmpty(Descricao)) {
                 throw new Exception("A decrição é obrigatória");
             }
             return new Especialidade(Descricao, Detalhamento);
@@ -27,8 +26,7 @@ namespace Controllers
         {
             Especialidade especialidade = GetEspecialidade(Id);
 
-            if (!String.IsNullOrEmpty(Descricao))
-            {
+            if (!String.IsNullOrEmpty(Descricao)) {
                 especialidade.Descricao = Descricao;
             }
             especialidade.Detalhamento = Detalhamento;
@@ -47,7 +45,7 @@ namespace Controllers
 
         public static List<Especialidade> VisualizarEspecialidades()
         {
-            return Models.Especialidade.GetEspecialidades();
+            return Models.Especialidade.GetEspecialidades();  
         }
 
         public static Especialidade GetEspecialidade(
@@ -56,10 +54,10 @@ namespace Controllers
         {
             List<Especialidade> especialidadesModels = Models.Especialidade.GetEspecialidades();
             IEnumerable<Especialidade> Especialidades = from Especialidade in especialidadesModels
-                                                        where Especialidade.Id == Id
-                                                        select Especialidade;
+                            where Especialidade.Id == Id
+                            select Especialidade;
             Especialidade especialidade = Especialidades.First();
-
+            
             if (especialidade == null)
             {
                 throw new Exception("Especialidade não encontrada");

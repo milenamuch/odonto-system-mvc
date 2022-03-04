@@ -8,14 +8,14 @@ namespace Controllers
     public class AgendamentoProcedimentoController
     {
         public static AgendamentoProcedimento InserirAgendamentoProcedimento(
-            int IdAgendamento,
-            int IdProcedimento
+            int AgendamentoId,
+            int ProcedimentoId
         )
         {
-            AgendamentoController.GetAgendamento(IdAgendamento);
-            ProcedimentoController.GetProcedimento(IdProcedimento);
+            AgendamentoController.GetAgendamento(AgendamentoId);
+            ProcedimentoController.GetProcedimento(ProcedimentoId);
 
-            return new AgendamentoProcedimento(IdAgendamento, IdProcedimento);
+            return new AgendamentoProcedimento(AgendamentoId, ProcedimentoId);
         }
 
         public static AgendamentoProcedimento GetAgendamentoProcedimento(

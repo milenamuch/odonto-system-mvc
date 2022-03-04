@@ -8,19 +8,19 @@ namespace Controllers
     public class AgendamentoController
     {
         public static Agendamento InserirAgendamento(
-            int IdPaciente,
-            int IdDentista,
-            int IdSala,
+            int PacienteId,
+            int DentistaId,
+            int SalaId,
             DateTime Data,
-            List<int> IdProcedimentos
+            List<int> ProcedimentosId
         )
         {
-            PacienteController.GetPaciente(IdPaciente);
-            DentistaController.GetDentista(IdDentista);
-            SalaController.GetSala(IdSala);
+            PacienteController.GetPaciente(PacienteId);
+            DentistaController.GetDentista(DentistaId);
+            SalaController.GetSala(SalaId);
             List<Procedimento> Procedimentos = new List<Procedimento>();
 
-            foreach (int item in IdProcedimentos)
+            foreach (int item in ProcedimentosId)
             {
                 Procedimento procedimento = ProcedimentoController.GetProcedimento(item);
                 Procedimentos.Add(procedimento);
@@ -33,16 +33,16 @@ namespace Controllers
 
             if (GetConflito(
                 0,
-                IdDentista,
+                DentistaId,
                 Data
             ))
             {
                 throw new Exception("Já existe um agendamento para este horário");
             }
 
-            Agendamento agendamento = new Agendamento(IdPaciente, IdDentista, IdSala, Data);
+            Agendamento agendamento = new Agendamento(PacienteId, DentistaId, SalaId, Data);
 
-            foreach (Procedimento procedimento in Procedimentos)
+            foreach (Procedimento procedimento in Procedimentos) 
             {
                 AgendamentoProcedimentoController.InserirAgendamentoProcedimento(agendamento.Id, procedimento.Id);
             }
@@ -52,29 +52,29 @@ namespace Controllers
 
         private static bool GetConflito(
             int IdAtual,
-            int IdDentista,
+            int DentistaId,
             DateTime Data
         )
         {
             IEnumerable<Agendamento> agendamentos =
                 from Agendamento in Agendamento.GetAgendamentos()
-                where Agendamento.Data == Data
-                    && Agendamento.IdDentista == IdDentista
-                    && Agendamento.Id != IdAtual
-                select Agendamento;
+                    where Agendamento.Data == Data 
+                        && Agendamento.DentistaId == DentistaId
+                        && Agendamento.Id != IdAtual
+                    select Agendamento;
 
             return agendamentos.Count() > 0;
         }
 
         public static Agendamento AlterarAgendamento(
             int Id,
-            int IdSala,
+            int SalaId,
             DateTime Data,
-            List<int> IdProcedimentos
+            List<int> ProcedimentosId
         )
         {
             Agendamento agendamento = GetAgendamento(Id);
-            SalaController.GetSala(IdSala);
+            SalaController.GetSala(SalaId);
             List<Procedimento> Procedimentos = new List<Procedimento>();
 
             if (Data == null || Data < DateTime.Now)
@@ -84,25 +84,26 @@ namespace Controllers
 
             if (GetConflito(
                 agendamento.Id,
-                agendamento.IdDentista,
+                agendamento.DentistaId,
                 Data
             ))
             {
                 throw new Exception("Já existe um agendamento para este horário");
             }
 
-            foreach (int item in IdProcedimentos)
+            foreach (int item in ProcedimentosId)
             {
                 Procedimento procedimento = ProcedimentoController.GetProcedimento(item);
                 Procedimentos.Remove(procedimento);
             }
 
-            agendamento.IdSala = IdSala;
+            agendamento.SalaId = SalaId;
             agendamento.Data = Data;
 
             return agendamento;
         }
 
+        
         public static Agendamento ExcluirAgendamento(
             int Id
         )
@@ -116,19 +117,19 @@ namespace Controllers
             return Agendamento.GetAgendamentos();
         }
 
-        public static void RemoveAll<Procedimentos>(Procedimentos item, List<Procedimentos> list)
+        public static void RemoveAll<Procedimentos>(Procedimentos item,List<Procedimentos> list)
         {
-            while (list.Contains(item)) list.Remove(item);
+            while(list.Contains(item)) list.Remove(item);
         }
-
+        
         public static Agendamento GetAgendamento(
             int Id
         )
         {
             Agendamento agendamento = (
                 from Agendamento in Agendamento.GetAgendamentos()
-                where Agendamento.Id == Id
-                select Agendamento
+                    where Agendamento.Id == Id
+                    select Agendamento
             ).First();
 
             if (agendamento == null)
@@ -139,10 +140,10 @@ namespace Controllers
             return agendamento;
         }
 
-        public static IEnumerable<Agendamento> GetAgendamentosPorPaciente(int IdPaciente) //fazer assim pra procedimento??
+        public static IEnumerable<Agendamento> GetAgendamentosPorPaciente(int PacienteId) //fazer assim pra procedimento??
         {
             return Agendamento.GetAgendamentos()
-                .Where(Agendamento => Agendamento.IdPaciente == IdPaciente);
+                .Where(Agendamento => Agendamento.PacienteId == PacienteId);
         }
 
         /*public static IEnumerable<Agendamento> GetProcedimentosPorAgendamento(int IdProcedimento) //fazer assim pra procedimento??
@@ -155,7 +156,7 @@ namespace Controllers
         {
             Agendamento agendamento = GetAgendamento(Id);
 
-            if (agendamento.IdPaciente != Auth.Paciente.Id)
+            if (agendamento.PacienteId != Auth.Paciente.Id)
             {
                 throw new Exception("Não é possível confirmar esse agendamento");
             }

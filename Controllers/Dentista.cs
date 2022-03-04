@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Controllers
 {
-    public class DentistaController
+    public class DentistaController 
     {
         public static Dentista InserirDentista(
             string Nome,
@@ -16,15 +16,15 @@ namespace Controllers
             string Senha,
             string Registro,
             double Salario,
-            int IdEspecialidade
+            int EspecialidadeId
         )
         {
             if (String.IsNullOrEmpty(Nome))
             {
                 throw new Exception("Nome inválido");
             }
-            Regex rx = new Regex("(^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$)|(^\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}$)");
-            if (String.IsNullOrEmpty(Cpf) || !rx.IsMatch(Cpf))
+            //Regex rx = new Regex("(^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$)|(^\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}$)");
+            if (String.IsNullOrEmpty(Cpf) /* || !rx.IsMatch(Cpf)*/)
             {
                 throw new Exception("Cpf inválido");
             }
@@ -53,7 +53,7 @@ namespace Controllers
                 throw new Exception("Registro inválido");
             }
 
-            return new Dentista(Nome, Cpf, Fone, Email, Senha, Registro, Salario, IdEspecialidade);
+            return new Dentista(Nome, Cpf, Fone, Email, Senha, Registro, Salario, EspecialidadeId);
         }
 
         public static Dentista AlterarDentista(
@@ -120,8 +120,8 @@ namespace Controllers
         {
             Dentista dentista = (
                 from Dentista in Dentista.GetDentistas()
-                where Dentista.Id == Id
-                select Dentista
+                    where Dentista.Id == Id
+                    select Dentista
             ).First();
 
             if (dentista == null)

@@ -5,7 +5,7 @@ using Models;
 
 namespace Controllers
 {
-    public class PacienteController
+    public class PacienteController 
     {
         public static Paciente InserirPaciente(
             string Nome,
@@ -121,8 +121,8 @@ namespace Controllers
         {
             Paciente paciente = (
                 from Paciente in Paciente.GetPacientes()
-                where Paciente.Id == Id
-                select Paciente
+                    where Paciente.Id == Id
+                    select Paciente
             ).First();
 
             if (paciente == null)
