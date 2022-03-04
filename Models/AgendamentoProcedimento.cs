@@ -1,89 +1,88 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using Repository;
 
 namespace Models
 {
     public class AgendamentoProcedimento
     {
-        public static int ID = 0;
-        private static List<AgendamentoProcedimento> AgendamentoProcedimentos = new List<AgendamentoProcedimento>();
+        
         public int Id { set; get; }
-        public int IdProcedimento { set; get; }
+        [Required]
+        public int ProcedimentoId{ set; get; }
         public Procedimento Procedimento { set; get; }
-        public int IdAgendamento { set; get; }
+        [Required]
+        public int AgendamnentoId{ set; get; }
         public Agendamento Agendamento { set; get; }
 
 
-        public AgendamentoProcedimento(
-            int IdProcedimento,
-            int IdAgendamento
-        ) : this(++ID, IdProcedimento, IdAgendamento)
-        { }
+        public AgendamentoProcedimento () { }
 
-        private AgendamentoProcedimento(
-            int Id,
-            int IdProcedimento,
-            int IdAgendamento
+        public AgendamentoProcedimento(
+            int ProcedimentoId,
+            int AgendamnentoId
         )
         {
-            this.Id = Id;
-            this.IdProcedimento = IdProcedimento;
-            this.Procedimento = Procedimento.GetProcedimentos().Find(Procedimento => Procedimento.Id == IdProcedimento);
-            this.IdAgendamento = IdAgendamento;
-            this.Agendamento = Agendamento.GetAgendamentos().Find(Agendamento => Agendamento.Id == IdAgendamento);
-
-            AgendamentoProcedimentos.Add(this);
+            this.ProcedimentoId = ProcedimentoId;
+            this.AgendamnentoId = AgendamnentoId;
+            Context db = new Context();
+            db.AgendamentoProcedimentos.Add(this);
+            db.SaveChanges();
         }
 
         public static List<AgendamentoProcedimento> GetAgendamentoProcedimentos()
         {
-            return AgendamentoProcedimentos;
+            Context db = new Context();
+            return (from AgendamentoProcedimento in db.AgendamentoProcedimentos select AgendamentoProcedimento).ToList();
         }
 
-        public static IEnumerable<AgendamentoProcedimento> GetProcedimentosPorAgendamento(int IdAgendamento)
+        public static IEnumerable<AgendamentoProcedimento> GetProcedimentosPorAgendamento(int AgendamnentoId)
         {
-            return AgendamentoProcedimentos.FindAll(Procedimento => Procedimento.IdAgendamento == IdAgendamento);
+            Context db = new Context();
+            return ( 
+                from AgendamentoProcedimento in db.AgendamentoProcedimentos 
+                where AgendamentoProcedimento.AgendamnentoId == AgendamnentoId 
+                select AgendamentoProcedimento
+                );
         }
 
-        public static double GetTotalPorAgendamento(int IdAgendamento)
+        public static double GetTotalPorAgendamento(int AgendamnentoId)
         {
+            Context db = new Context();
             return (
-                from AgendamentoProcedimento in AgendamentoProcedimentos
-                where AgendamentoProcedimento.IdAgendamento == IdAgendamento
+                from AgendamentoProcedimento in db.AgendamentoProcedimentos 
+                where AgendamentoProcedimento.AgendamnentoId == AgendamnentoId 
                 select AgendamentoProcedimento.Procedimento.Preco
             ).Sum();
         }
 
-        public static string ImprimirPorAgendamento(int IdAgendamento)
+        public static string ImprimirPorAgendamento(int AgendamnentoId)
         {
-            IEnumerable<AgendamentoProcedimento> procedimentos = from AgendamentoProcedimento in AgendamentoProcedimentos
-                                                                 where AgendamentoProcedimento.IdAgendamento == IdAgendamento
-                                                                 select AgendamentoProcedimento;
+            Context db = new Context();
+            IEnumerable<AgendamentoProcedimento> procedimentos = from AgendamentoProcedimento in db.AgendamentoProcedimentos 
+                where AgendamentoProcedimento.AgendamnentoId == AgendamnentoId
+                select AgendamentoProcedimento;
 
-
+            
             string ret = "Procedimentos: ";
-            if (procedimentos.Count() > 0)
-            {
-                foreach (AgendamentoProcedimento procedimento in procedimentos)
-                {
+            if (procedimentos.Count() > 0) {
+                foreach(AgendamentoProcedimento procedimento in procedimentos) {
                     ret += $"\n    Procedimento: {procedimento.Procedimento.Descricao}";
                     ret += $"\n    Preco: {procedimento.Procedimento.Preco}";
                 }
             }
-            else
+            else 
             {
                 ret += "\n    Não há procedimentos.";
-            }
-
+            }           
             return ret;
         }
 
-        public static void RemoverAgendamentoProcedimento(
-            AgendamentoProcedimento agendamentoProcedimento
-        )
+        public static void RemoverAgendamentoProcedimento(AgendamentoProcedimento agendamentoProcedimento)
         {
-            AgendamentoProcedimentos.Remove(agendamentoProcedimento);
+            Context db = new Context();
+            db.AgendamentoProcedimentos.Remove(agendamentoProcedimento);
         }
-
     }
 }

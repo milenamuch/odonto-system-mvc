@@ -18,8 +18,8 @@ namespace Models
                 + $"\nEmail: {this.Email}";
         }
 
-        public Pessoa(
-            int Id,
+        public Pessoa () { }
+         public Pessoa(
             string Nome,
             string Cpf,
             string Fone,
@@ -27,7 +27,6 @@ namespace Models
             string Senha
         )
         {
-            this.Id = Id;
             this.Nome = Nome;
             this.Cpf = Cpf;
             this.Fone = Fone;
@@ -45,7 +44,7 @@ namespace Models
             {
                 return false;
             }
-            Pessoa it = (Pessoa)obj;
+            Pessoa it = (Pessoa) obj;
             return it.Id == this.Id;
         }
 

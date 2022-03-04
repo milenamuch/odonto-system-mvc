@@ -1,26 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using Repository;
 
 namespace Models
 {
     public class Especialidade
     {
-        public static int ID = 0;
-        private static List<Especialidade> Especialidades = new List<Especialidade>();
         public int Id { set; get; }
+        [Required]
         public string Descricao { set; get; }
+        [Required]
         public string Detalhamento { set; get; }
 
+        public Especialidade () { }
         public Especialidade(
-            string Descricao,
-            string Detalhamento
-        ) : this(++ID, Descricao, Detalhamento)
-        {
-            this.Descricao = Descricao;
-            this.Detalhamento = Detalhamento;
-        }
-
-        private Especialidade(
-            int Id,
             string Descricao,
             string Detalhamento
         )
@@ -28,8 +22,9 @@ namespace Models
             this.Id = Id;
             this.Descricao = Descricao;
             this.Detalhamento = Detalhamento;
-
-            Especialidades.Add(this);
+            Context db = new Context();
+            db.Especialidades.Add(this);
+            db.SaveChanges();
         }
 
         public override string ToString()
@@ -49,17 +44,18 @@ namespace Models
             {
                 return false;
             }
-            Especialidade it = (Especialidade)obj;
+            Especialidade it = (Especialidade) obj;
             return it.Id == this.Id;
         }
-        public static List<Especialidade> GetEspecialidades()
+       public static List<Especialidade> GetEspecialidades()
         {
-            return Especialidades;
+            Context db = new Context();
+            return (from Especialidade in db.Especialidades select Especialidade).ToList();
         }
-
         public static void RemoverEspecialidade(Especialidade especialidade)
         {
-            Especialidades.Remove(especialidade);
+            Context db = new Context();
+            db.Especialidades.Remove(especialidade);
         }
     }
 }

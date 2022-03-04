@@ -1,24 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using Repository;
 
 namespace Models
 {
     public class Procedimento
     {
-        public static int ID = 0;
-        private static List<Procedimento> Procedimentos = new List<Procedimento>();
+        
         public int Id { set; get; }
+        [Required]
         public string Descricao { set; get; }
+        [Required]
         public double Preco { set; get; }
 
-        public Procedimento(
-            string Descricao,
-            double Preco
-        ) : this(++ID, Descricao, Preco)
-        {
+        public Procedimento () { }
 
-        }
-        private Procedimento(
-            int Id,
+        public Procedimento(
             string Descricao,
             double Preco
         )
@@ -26,8 +24,9 @@ namespace Models
             this.Id = Id;
             this.Descricao = Descricao;
             this.Preco = Preco;
-
-            Procedimentos.Add(this);
+            Context db = new Context();
+            db.Procedimentos.Add(this);
+            db.SaveChanges();
         }
 
         public override string ToString()
@@ -54,12 +53,14 @@ namespace Models
 
         public static List<Procedimento> GetProcedimentos()
         {
-            return Procedimentos;
+            Context db = new Context();
+            return (from Procedimento in db.Procedimentos select Procedimento).ToList();
         }
 
         public static void RemoverProcedimento(Procedimento procedimento)
         {
-            Procedimentos.Remove(procedimento);
+            Context db = new Context();
+            db.Procedimentos.Remove(procedimento);
         }
     }
 }
